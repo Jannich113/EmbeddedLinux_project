@@ -71,12 +71,12 @@ def Soil_moisturing():
         Run_pump(5)
         
 def Pump_water_alarm():
-    if pump_water_alarm == 1:
+    if pump_water_alarm.value() == 1:
         return True
     return False
 
 def Plant_water_alarm():
-    if plant_water_alarm == 1:
+    if plant_water_alarm.value() == 1:
         return True
     return False
 
@@ -93,7 +93,10 @@ def Button_pressed_2_times():
             if pump_request():
                 return Run_pump(5)
             current_time = utime.time()
-                
+
+def Transmit_data(data):
+    t_data = ','.join(data) # joining all information into one string, seperated by comma
+    uart.write(t_data.encode())
 
 while True:
     led_builtin.toggle()
@@ -102,5 +105,7 @@ while True:
     Soil_moisturing()
     Button_pressed_2_times()
     utime.sleep(1)
+    data = [plant_water_alarm.value(), pump_water_alarm.value(), moisture(), light()]
+    Transmit_data(data)
     print("%d,%d,%.0f,%.0f" % (plant_water_alarm.value(), pump_water_alarm.value(), moisture(),
 light()))
