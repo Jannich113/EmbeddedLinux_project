@@ -104,8 +104,8 @@ while True:
     Detection_of_watering_per_hour()
     Soil_moisturing()
     Button_pressed_2_times()
-    utime.sleep(1)
     data = [plant_water_alarm.value(), pump_water_alarm.value(), moisture(), light()]
     Transmit_data(data)
+    utime.sleep(1)
     print("%d,%d,%.0f,%.0f" % (plant_water_alarm.value(), pump_water_alarm.value(), moisture(),
 light()))
