@@ -6,6 +6,10 @@
 # Copyright (c) Kjeld Jensen <kjen@sdu.dk> <kj@kjen.dk>
 # 2023-04-19, KJ, First version
 
+# Modified 
+# by group 21
+# 2023-04-24
+
 from machine import Pin, ADC, UART
 import utime
 from sys import stdin
