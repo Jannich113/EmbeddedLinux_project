@@ -31,6 +31,8 @@ Allowed_watering = True
 time_of_watering = 0
 Hour = 3600 #sec
 soil_threshold = 70 # range from 0-100 
+schedule_time = 0
+Twelve_hours = 43200 #sec
 
 
 def moisture():
@@ -57,10 +59,20 @@ def Run_pump(time):
         
 # missing, haven't impl. that the schedule respects if watering is allowed
 def Water_pump_run_schedule():
-    current_time = utime.gmtime() #gets the UTC time
-    if current_time.tm_hour == 12 or current_time.tm_hour == 0:   #water at time 12 and 24
+    #current_time = utime.gmtime() #gets the UTC time
+    #if current_time.tm_hour == 12 or current_time.tm_hour == 0:   #water at time 12 and 24
+    #    Run_pump(Watering_time)
+    #    print("Scheduled Watering at:", current_time.tm_hour)
+    # initial start of time monitoring
+    if schedule_time == 0:
+        schedule_time = utime.time()
+    
+    current_time = utime.time()
+    if current_time - schedule_time >= Twelve_hours:
         Run_pump(Watering_time)
         print("Scheduled Watering at:", current_time.tm_hour)
+        schedule_time = utime.time()
+    
         
 def Detection_of_watering_per_hour():
     current_time = utime.time()
