@@ -84,8 +84,10 @@ class pico:
         current_time = utime.time()
         if current_time - self.time_of_watering >= self.Hour:
             self.Allowed_watering = True
+            print("allowed watering")
         else:
             self.Allowed_watering = False
+            print("NOT allowed watering")
         
         
     def Soil_moisturing(self):
@@ -96,17 +98,23 @@ class pico:
     def Pump_water_alarm(self):
         if self.pump_water_alarm.value() == 1:
             return True
-        return False
+        else:
+            return False
 
     def Plant_water_alarm(self):
         if self.plant_water_alarm.value() == 1:
             return True
-        return False
+        else:
+            return False
 
     def Water_alarm(self):
-        if self.Pump_water_alarm() == True and self.Plant_water_alarm() == True:
+        if self.Pump_water_alarm() == True or self.Plant_water_alarm() == True:
+            print("water alarm true")
             return False
-        return True
+        else:
+            print("water alarm false")
+            return True
+        
 
     def Button_pressed_2_times(self):
         if self.pump_request():
@@ -132,8 +140,8 @@ while True:
     p.Detection_of_watering_per_hour()
     p.Soil_moisturing()
     p.Button_pressed_2_times()
-    data = [p.plant_water_alarm.value(), p.pump_water_alarm.value(), p.moisture(), p.light()]
+    data = [p.plant_water_alarm.value(), p.pump_water_alarm.value(), p.moisture(), p.light(), p.]
     p.Transmit_data(data)
     utime.sleep(1)
-    print("%d,%d,%.0f,%.0f" % (p.plant_water_alarm.value(), p.pump_water_alarm.value(), p.moisture(),
+    print("%d,%d,%.0f,%.0f,%d" % (p.plant_water_alarm.value(), p.pump_water_alarm.value(), p.moisture(),p.Allowed_watering,
 p.light()))
