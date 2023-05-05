@@ -9,3 +9,12 @@ esp8266_remote.ino
     - main file for esp8266.
     - flash throug Arduino IDE 
         - requirement: add esp8266 bib 
+
+MQTT broker 
+    - needs user name and passwd to allow for listeners
+    - username: pi
+    - passed: burgerking
+
+McWifi
+    - passwd: burgerking
+     
