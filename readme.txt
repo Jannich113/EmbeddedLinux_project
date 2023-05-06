@@ -32,3 +32,10 @@ McWifi
     - passwd: burgerking
 
 
+
+links
+    https://randomnerdtutorials.com/esp8266-and-node-red-with-mqtt/
+    https://randomnerdtutorials.com/how-to-install-mosquitto-broker-on-raspberry-pi/
+    
+
+
