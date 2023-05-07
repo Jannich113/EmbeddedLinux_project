@@ -213,17 +213,15 @@ void loop()
   // check if the button is pressed
 
   if (buttonPressed){
-    // count presses
-    buttonPressCount +=1
+    
     unsigned long currentMillis = millis();
 
     // checks for double button press withing time limit
     if (currentMillis - lastButtonPressTime <= doublePressTime){
-      if (buttonPressCount == 2){
-        // publish that its a double press
-        client.publish("remote/button/pushed", String(Double).c_str());
-        buttonPressCount = 0 // reset the counter
-      }
+    
+      // publish that its a double press
+      client.publish("remote/button/pushed", String(Double).c_str());
+        
     }
     else {
       // publish that its a single press
