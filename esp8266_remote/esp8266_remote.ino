@@ -44,6 +44,7 @@ ICACHE_RAM_ATTR void button_a_isr()
   {
     count_prev_time = millis();
     button_a_count++;
+    
   }
 }
 

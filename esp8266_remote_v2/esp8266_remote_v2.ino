@@ -18,6 +18,10 @@
 #define DEBOUNCE_TIME 200 // milliseconds
 volatile int button_a_count;
 volatile unsigned long count_prev_time;
+volatile bool buttonPressed = false;
+volatile unsigned long lastButtonPressTime = 0;
+const unsigned long doublePressTime = 2000;
+volatile int buttonPressCount = 0;
 
 
 // MQTT broker credentials 
@@ -37,29 +41,17 @@ PubSubClient client(espClient);
 const char* WIFI_SSID = "McWifi";
 const char* WIFI_PASSWORD = "burgerking";
 
-// Static IP address
-//IPAddress IPaddress(192, 168, 0, 222);
-//IPAddress gateway(192, 168, 0, 1);
-//IPAddress subnet(255, 255, 255, 0);
-//IPAddress primaryDNS(1, 1, 1, 1); 
-//IPAddress secondaryDNS(8, 8, 8, 8); 
 
-// Webserver
-//#define CLIENT_TIMEOUT 2000
-
-//WiFiServer server(80);
-//WiFiClient client = server.available();
-//unsigned long clientConnectTime = 0;
-//String currentLine = "";
-//char response_s[10];
-//char s[25];
-
+// interrupt service routine
+//  - debouncer 
+//  - bool for button pressed
 ICACHE_RAM_ATTR void button_a_isr()
 {
   if (millis() - count_prev_time > DEBOUNCE_TIME)
   {
     count_prev_time = millis();
-    button_a_count++;
+    buttonPressed = true
+   
   }
 }
 
@@ -148,12 +140,6 @@ void setup()
   pinMode(PIN_BUTTON, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(PIN_BUTTON), button_a_isr, RISING);
 
-  // set the ESP8266 to be a WiFi-client
-  //WiFi.mode(WIFI_STA); 
-  
-  // configure static IP address
-  //WiFi.config(IPaddress, gateway, subnet);
-  //WiFi.config(IPaddress, gateway, subnet, primaryDNS, secondaryDNS);
 
   // connect to Wifi access point
   Serial.println();
@@ -174,10 +160,6 @@ void setup()
   Serial.println(WiFi.localIP());
   Serial.println("");
 
-  // start webserver
-  //Serial.println("Starting webserver");
-  //Serial.println("");
-  //server.begin();
 
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
@@ -228,8 +210,32 @@ void loop()
     client.connect("ESP8266Client", MQTT_username, MQTT_password);
 
  
-  // publish every 5 sec
-  delay(5000);
-  client.publish("testTopic", String(4).c_str());
+  // check if the button is pressed
+
+  if (buttonPressed){
+    // count presses
+    buttonPressCount +=1
+    unsigned long currentMillis = millis();
+
+    // checks for double button press withing time limit
+    if (currentMillis - lastButtonPressTime <= doublePressTime){
+      if (buttonPressCount == 2){
+        // publish that its a double press
+        client.publish("remote/button/pushed", String(Double).c_str());
+        buttonPressCount = 0 // reset the counter
+      }
+    }
+    else {
+      // publish that its a single press
+      client.publish("remote/button/pushed", String(Single).c_str());
+      buttonPressCount = 0 // reset the counter
+    }
+
+    lastButtonPressTime = currentMillis;
+    buttonPressed = false;
+  }
+
+    
+  
    
 }
