@@ -76,8 +76,6 @@ void callback(String topic, byte* message, unsigned int length) {
   }
   Serial.println();
 
-  // Feel free to add more if statements to control more GPIOs with MQTT
-
   // If a message is received on the topic room/lamp, you check if the message is either on or off. Turns the lamp GPIO according to the message
   if(topic=="testTopic"){
       Serial.print("Changing Room lamp to ");
@@ -90,6 +88,39 @@ void callback(String topic, byte* message, unsigned int length) {
         Serial.print("Off");
       }
   }
+  else if(topic="remote/led/red"){
+      Serial.print("Changing red led to ");
+      if(messageTemp == "on"){
+        digitalWrite(PIN_LED_RED, HIGH);
+        Serial.print("On");
+      }
+      else if(messageTemp == "off"){
+        digitalWrite(PIN_LED_RED, LOW);
+        Serial.print("Off");
+      }
+  }
+  else if(topic="remote/led/green"){
+      Serial.print("Changing green led to ");
+      if(messageTemp == "on"){
+        digitalWrite(PIN_LED_GREEN, HIGH);
+        Serial.print("On");
+      }
+      else if(messageTemp == "off"){
+        digitalWrite(PIN_LED_GREEN, LOW);
+        Serial.print("Off");
+      }
+  }
+  else if(topic="remote/led/yellow"){
+      Serial.print("Changing red led to ");
+      if(messageTemp == "on"){
+        digitalWrite(PIN_LED_YELLOW, HIGH);
+        Serial.print("On");
+      }
+      else if(messageTemp == "off"){
+        digitalWrite(PIN_LED_YELLOW, LOW);
+        Serial.print("Off");
+      }
+  } 
   Serial.println();
 }
 
@@ -170,6 +201,9 @@ void reconnect() {
       // You can subscribe to more topics (to control more LEDs in this example)
       //client.setCallback(callback);
       client.subscribe("testTopic");
+      client.subscribe("remote/led/red");
+      client.subscribe("remote/led/green");
+      client.subscribe("remote/led/yellow");
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
