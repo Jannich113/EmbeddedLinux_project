@@ -18,7 +18,7 @@ MQTT broker
     To run the MQTT broker in the background as a daemom
     - mosquitto -d
 
-    To subscribe to a topic
+    To subscribe to a topicww
     - mosquitto_sub -d -t "topic" -u "username -P "passwd"
 
     To publish to a topic
@@ -26,16 +26,17 @@ MQTT broker
 
 
 RPI 
-    - address: 10.0.0.10 or 192.168.10.1
+    - address: 10.42.0.10 or 192.168.10.1
 
 McWifi
     - passwd: burgerking
 
-
+path to the web page data folder
+ /var/www/html/plant_data
 
 links
     https://randomnerdtutorials.com/esp8266-and-node-red-with-mqtt/
     https://randomnerdtutorials.com/how-to-install-mosquitto-broker-on-raspberry-pi/
     
-
+    https://thepi.io/how-to-use-your-raspberry-pi-as-a-wireless-access-point/
 
