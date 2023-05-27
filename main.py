@@ -60,6 +60,8 @@ class pico:
             utime.sleep(time)
             self.pump_control.low() # deactivare
             self.time_of_watering = utime.time()
+        else:
+            self.uart.write("water alarm!".encode())
             
     # missing, haven't impl. that the schedule respects if watering is allowed
     def Water_pump_run_schedule(self):
@@ -122,9 +124,9 @@ while True:
     p = pico()
     #p.moisture()
     p.led_builtin.toggle()
-    p.Water_pump_run_schedule()
-    p.Detection_of_watering_per_hour()
-    p.Soil_moisturing()
+    #p.Water_pump_run_schedule()
+    #p.Detection_of_watering_per_hour()
+    #p.Soil_moisturing()
     data = [p.plant_water_alarm.value(), p.pump_water_alarm.value(), p.moisture(), p.light()]
     p.Transmit_data(data)
     utime.sleep(1)

@@ -6,6 +6,7 @@
 time_of_watering = 0 
 isWateringAllowed=false
 scheduled_watering=false
+soil_moistur=false
 
 while true
 do
@@ -17,7 +18,6 @@ do
     echo "watering allowed: $isWateringAllowed"
 
 
-
     # function for scheduled watering pump run
     ./water_pump_run_schedule.sh
 
@@ -25,8 +25,11 @@ do
     echo "scheduled watering at: $scheduled_watering"
 
 
-    # function for 
+    # function for soil moistering 
+    ./soil_moisturing.sh $isWateringAllowed
 
+    soil_moistur=$?
+    echo "soil moisturing needed: $soil_moistur"
 
 
 
