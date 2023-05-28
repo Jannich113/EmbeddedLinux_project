@@ -34,6 +34,11 @@ McWifi
 path to the web page data folder
  /var/www/html/plant_data
 
+
+To run bash script in daemom without terminal session
+    nohup ./script.sh &
+
+
 links
     https://randomnerdtutorials.com/esp8266-and-node-red-with-mqtt/
     https://randomnerdtutorials.com/how-to-install-mosquitto-broker-on-raspberry-pi/

@@ -120,14 +120,17 @@ class pico:
         t_data = ','.join(str(data)) # joining all information into one string, seperated by comma
         self.uart.write(t_data.encode())
 
+
+p = pico()
 while True:
-    p = pico()
     #p.moisture()
     p.led_builtin.toggle()
+    if p.pump_request() =="p":
+        p.Run_pump()
     #p.Water_pump_run_schedule()
     #p.Detection_of_watering_per_hour()
     #p.Soil_moisturing()
-    data = [p.plant_water_alarm.value(), p.pump_water_alarm.value(), p.moisture(), p.light()]
+    data = [p.plant_water_alarm.value(), p.pump_water_alarm.value(), p.moisture(), p.light(), p.Allowed_watering]
     p.Transmit_data(data)
     utime.sleep(1)
     print("%d,%d,%.0f,%.0f,%d" % (p.plant_water_alarm.value(), p.pump_water_alarm.value(), p.moisture(),p.Allowed_watering,

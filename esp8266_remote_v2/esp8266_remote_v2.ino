@@ -50,7 +50,7 @@ ICACHE_RAM_ATTR void button_a_isr()
   if (millis() - count_prev_time > DEBOUNCE_TIME)
   {
     count_prev_time = millis();
-    buttonPressed = true
+    buttonPressed = true;
    
   }
 }
@@ -80,7 +80,7 @@ void callback(String topic, byte* message, unsigned int length) {
         Serial.print("Off");
       }
   }
-  else if(topic="remote/led/red"){
+  if(topic=="remote/led/red"){
       Serial.print("Changing red led to ");
       if(messageTemp == "on"){
         digitalWrite(PIN_LED_RED, HIGH);
@@ -91,7 +91,7 @@ void callback(String topic, byte* message, unsigned int length) {
         Serial.print("Off");
       }
   }
-  else if(topic="remote/led/green"){
+  if(topic=="remote/led/green"){
       Serial.print("Changing green led to ");
       if(messageTemp == "on"){
         digitalWrite(PIN_LED_GREEN, HIGH);
@@ -102,8 +102,8 @@ void callback(String topic, byte* message, unsigned int length) {
         Serial.print("Off");
       }
   }
-  else if(topic="remote/led/yellow"){
-      Serial.print("Changing red led to ");
+  if(topic=="remote/led/yellow"){
+      Serial.print("Changing yellow led to ");
       if(messageTemp == "on"){
         digitalWrite(PIN_LED_YELLOW, HIGH);
         Serial.print("On");
@@ -220,13 +220,15 @@ void loop()
     if (currentMillis - lastButtonPressTime <= doublePressTime){
     
       // publish that its a double press
-      client.publish("remote/button/pushed", String(Double).c_str());
+      Serial.print("double");
+      client.publish("remote/button/pushed", "double");
         
     }
     else {
       // publish that its a single press
-      client.publish("remote/button/pushed", String(Single).c_str());
-      buttonPressCount = 0 // reset the counter
+      Serial.print("single");
+      client.publish("remote/button/pushed", "single");
+      buttonPressCount = 0; // reset the counter
     }
 
     lastButtonPressTime = currentMillis;
