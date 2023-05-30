@@ -27,3 +27,7 @@ mqtt_subs() {
 
 }
 
+while true; do
+
+    mqtt_subs
+done

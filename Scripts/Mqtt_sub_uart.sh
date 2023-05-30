@@ -2,7 +2,7 @@
 
 
 # Set MQTT broker details
-MQTT_BROKER="localhost"
+MQTT_BROKER="192.168.10.1"
 MQTT_PORT="1883"
 #MQTT_TOPIC="remote/button/pushed"
 MQTT_TOPIC="start/pump"
@@ -10,30 +10,46 @@ MQTT_TOPIC="start/pump"
 DEVICE="/dev/ttyACM0"
 
 
-# function to transmit data over uart
-
 uart_transmit() {
   local data="$1"
   echo "$data" > "$DEVICE"
 }
 
-# subscribe to topic 
-# mosquitto_sub -"$MQTT_BROKER" -p "$MQTT_PORT" -u "pi" -P "burgerking" -t "$MQTT_TOPIC" | 
-# while read MESSAGE; do
 
-#   if echo "$MESSAGE" | grep -q "single"; then
-#     uart_transmit "t"
-#     echo "Single message received: $MESSAGE"
-#   fi
-  
-#   # Check if the message contains "double"
-#   if echo "$MESSAGE" | grep -q "double"; then
-#     uart_transmit "p"
-#     echo "Double message received: $MESSAGE"
-#   fi
-# done
-while true; do
+
+start_pump_on_message() {
+  local message=$1  
+
+  if [[ "$message" == "start"]]; then
+    uart_transmit "p"
+  fi
+
+}
+
+
+
+request_data_after_delay() {
+  local time_delay=$1
+  sleep "$time_delay"
   uart_transmit "t"
+
+}
+
+
+
+mqtt_subs() {
+
+  while read -r message; do
+    start_pump_on_message "$message"
+  done < <(mosquitto_sub -h "$MQTT_BROKER" -t "$MQTT_TOPIC" -u pi -P burgerking)
+
+}
+
+while true; do
+
+  mqtt_subs &
+
+  # request data with a sleep of 1 second
+  request_data_after_delay 1 
+
 done
-# insert -a between tee and log_file2.txt for append recieved data to log file
-# instead of overwriting it 
