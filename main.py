@@ -30,7 +30,7 @@ class pico:
 
     
     #defined values
-    Watering_time = 15 # sec
+    Watering_time = 3 # sec
     Allowed_watering = True
     time_of_watering = 0
     Hour = 3600 #sec
@@ -49,19 +49,19 @@ class pico:
         while select_result[0]:
             ch = stdin.read(1)
             if ch == 'p':
-                result = True
+                result = "p"
+            elif ch == 't':
+                result = "t"
             select_result = uselect.select([stdin], [], [], 0)
         return result
 
     # Own code
-    def Run_pump(self, time):
-        if self.Water_alarm(): # run pump if alarm is not active
+    def Run_pump(self):
+        if not self.Water_alarm(): # run pump if alarm is not active
             self.pump_control.high() # activate
-            utime.sleep(time)
+            utime.sleep(self.Watering_time)
             self.pump_control.low() # deactivare
             self.time_of_watering = utime.time()
-        else:
-            self.uart.write("water alarm!".encode())
             
     # missing, haven't impl. that the schedule respects if watering is allowed
     def Water_pump_run_schedule(self):
@@ -94,9 +94,9 @@ class pico:
             
     def Pump_water_alarm(self):
         if self.pump_water_alarm.value() == 1:
-            return True
-        else:
             return False
+        else:
+            return True
 
     def Plant_water_alarm(self):
         if self.plant_water_alarm.value() == 1:
@@ -107,10 +107,10 @@ class pico:
     def Water_alarm(self):
         if self.Pump_water_alarm() == True or self.Plant_water_alarm() == True:
             print("water alarm true")
-            return False
+            return True
         else:
             print("water alarm false")
-            return True
+            return False
         
 
     def Transmit_data(self, data):
@@ -124,14 +124,19 @@ class pico:
 p = pico()
 while True:
     #p.moisture()
-    p.led_builtin.toggle()
-    if p.pump_request() =="p":
+    #p.led_builtin.toggle()
+    result =p.pump_request()
+    if result =="p":
         p.Run_pump()
+    if result == "t":
+           print("%d,%d,%.0f,%.0f" % (p.plant_water_alarm.value(), p.pump_water_alarm.value(), p.moisture(),
+p.light()))
     #p.Water_pump_run_schedule()
     #p.Detection_of_watering_per_hour()
     #p.Soil_moisturing()
-    data = [p.plant_water_alarm.value(), p.pump_water_alarm.value(), p.moisture(), p.light(), p.Allowed_watering]
-    p.Transmit_data(data)
-    utime.sleep(1)
-    print("%d,%d,%.0f,%.0f,%d" % (p.plant_water_alarm.value(), p.pump_water_alarm.value(), p.moisture(),p.Allowed_watering,
-p.light()))
+    #data = [p.plant_water_alarm.value(), p.pump_water_alarm.value(), p.moisture(), p.light(), p.Allowed_watering]
+    #p.Transmit_data(data)
+    #self.self.uart.write("hej".encode())
+    #utime.sleep(1)
+    
+    
