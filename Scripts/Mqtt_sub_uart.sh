@@ -4,7 +4,8 @@
 # Set MQTT broker details
 MQTT_BROKER="localhost"
 MQTT_PORT="1883"
-MQTT_TOPIC="remote/button/pushed"
+#MQTT_TOPIC="remote/button/pushed"
+MQTT_TOPIC="start/pump"
 
 DEVICE="/dev/ttyACM0"
 

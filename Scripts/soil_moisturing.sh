@@ -21,6 +21,10 @@ function moisture() {
     echo "$value"
 }
 
+mqtt_subs() {
+    
+
+}
 
 
 soil_moisturing # call the soil_moisturing function
