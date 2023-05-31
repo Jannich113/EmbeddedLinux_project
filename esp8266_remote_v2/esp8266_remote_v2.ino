@@ -16,6 +16,7 @@
 // button
 #define PIN_BUTTON      4
 #define DEBOUNCE_TIME 200 // milliseconds
+//#define ID "1"
 volatile int button_a_count;
 volatile unsigned long count_prev_time;
 volatile bool buttonPressed = false;
@@ -68,31 +69,22 @@ void callback(String topic, byte* message, unsigned int length) {
   }
   Serial.println();
 
-  // If a message is received on the topic room/lamp, you check if the message is either on or off. Turns the lamp GPIO according to the message
-  if(topic=="testTopic"){
-      Serial.print("Changing Room lamp to ");
-      if(messageTemp == "on"){
-        digitalWrite(LED_BUILTIN, HIGH);
-        Serial.print("On");
-      }
-      else if(messageTemp == "off"){
-        digitalWrite(LED_BUILTIN, LOW);
-        Serial.print("Off");
-      }
+  if(topic=="remote/1/red_led"){
+    Serial.print("Changing red led to ");
+    if(messageTemp == "on"){
+      digitalWrite(PIN_LED_RED, HIGH);
+      Serial.print("On");
+    }
+    else if(messageTemp == "off"){
+      digitalWrite(PIN_LED_RED, LOW);
+      Serial.print("Off");
+    }
+  
   }
-  if(topic=="remote/led/red"){
-      Serial.print("Changing red led to ");
-      if(messageTemp == "on"){
-        digitalWrite(PIN_LED_RED, HIGH);
-        Serial.print("On");
-      }
-      else if(messageTemp == "off"){
-        digitalWrite(PIN_LED_RED, LOW);
-        Serial.print("Off");
-      }
-  }
-  if(topic=="remote/led/green"){
+  if(topic=="remote/1/green_led"){
       Serial.print("Changing green led to ");
+
+
       if(messageTemp == "on"){
         digitalWrite(PIN_LED_GREEN, HIGH);
         Serial.print("On");
@@ -102,7 +94,7 @@ void callback(String topic, byte* message, unsigned int length) {
         Serial.print("Off");
       }
   }
-  if(topic=="remote/led/yellow"){
+  if(topic=="remote/1/yellow_led"){
       Serial.print("Changing yellow led to ");
       if(messageTemp == "on"){
         digitalWrite(PIN_LED_YELLOW, HIGH);
@@ -182,10 +174,10 @@ void reconnect() {
       // Subscribe or resubscribe to a topic
       // You can subscribe to more topics (to control more LEDs in this example)
       //client.setCallback(callback);
-      client.subscribe("testTopic");
-      client.subscribe("remote/led/red");
-      client.subscribe("remote/led/green");
-      client.subscribe("remote/led/yellow");
+    
+      client.subscribe("remote/1/red_led");
+      client.subscribe("remote/1/green_led");
+      client.subscribe("remote/1/yellow_led");
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -214,24 +206,10 @@ void loop()
 
   if (buttonPressed){
     
-    unsigned long currentMillis = millis();
-
-    // checks for double button press withing time limit
-    if (currentMillis - lastButtonPressTime <= doublePressTime){
-    
-      // publish that its a double press
-      Serial.print("double");
-      client.publish("remote/button/pushed", "double");
+    Serial.print("double");
+   
+    client.publish("remote/1/button_pushed", "pushed");
         
-    }
-    else {
-      // publish that its a single press
-      Serial.print("single");
-      client.publish("remote/button/pushed", "single");
-      buttonPressCount = 0; // reset the counter
-    }
-
-    lastButtonPressTime = currentMillis;
     buttonPressed = false;
   }
 
