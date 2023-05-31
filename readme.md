@@ -72,4 +72,15 @@ Add health and network status monitor to Cron for logging every minute. Add peri
     0 */12 * * * /home/pi/ShellScripts/water_plant.sh <plant_id>
 ```
 
+## Add new plant to system
+Add relationship between plant_id and serial port in /home/pi/ShellScripts/plant_id_to_serialport.sh
+```bash
+    nano /home/pi/ShellScripts/plant_id_to_serialport.sh
+    # Add new translation of plant_id to serial port before last line containing "fi"
+    elif [ $plant_id == <id>]
+    then
+        echo /dev/<serial port>
+```
 
+
+## Add new remote to system
