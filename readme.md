@@ -54,12 +54,37 @@ The wireless network connection is
 * SSID: McWifi
 * Password: burgerking
 
-The sudo password for user pi is
+SSH connection
+* User: waterio@<10.0.0.10 or 192.168.10.1>
 * Password: Sunset
+
+The sudo password for default user waterioip is
+* Password: Sunset
+
+The root user has been disabled, but password is
+* Password: Napoli
 
 MQTT broker
 * User: pi
 * Password: brugerking
+
+## Usefull commands
+Manually start pump controller
+```bash
+    /home/pi/ShellScripts/pump_controller.sh <plant_id> <serial_port>
+```
+Manually request pump start
+```bash
+    /home/pi/ShellScripts/water_plant.sh <plant_id>
+```
+Start manual water controll monitor
+```bash
+    /home/pi/ShellScripts/manual_water.sh <plant_id> <remote_id>
+```
+Start moinsture moniture
+```bash
+    /home/pi/ShellScripts/moisture_monitor.sh <plant_id> <soild_threshold>
+```
 
 ## First time setup of new pi
 
@@ -70,6 +95,11 @@ Add health and network status monitor to Cron for logging every minute. Add peri
     * * * * * /home/pi/ShellScripts/health_monitor.sh
     # Add every that should be watered peroidicly, eg plant 1 ever 12 hours
     0 */12 * * * /home/pi/ShellScripts/water_plant.sh <plant_id>
+```
+
+Make sure that every script in /home/pi/ShellScripts are executable
+```bash
+    chmod 755 /home/pi/ShellScripts/<script>.sh
 ```
 
 ## Add new plant to system
