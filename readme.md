@@ -8,7 +8,7 @@ This is the git repository for the Embedded linux project by group 21
 - [@JacobBraendstrup](https://github.com/JacobBraendstrup)
 
 ## Repository Overview
-The highlighted part is a folder structure containing the main parts of the project: 
+The highlighted part is the main parts of the project: 
 
 **ShellScript:** bash scripts used on the RPI for functional requirement with MQTT embedded  .
 
