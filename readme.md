@@ -8,15 +8,21 @@ This is the git repository for the Embedded linux project by group 21
 - [@JacobBraendstrup](https://github.com/JacobBraendstrup)
 
 ## Repository Overview
-main.py 
-    - main file for pico.
-    - flash throug Thonny IDE for micropython.
+The highlighted part is a folder structure containing the main parts of the project: 
+
+**ShellScript:** bash scripts used on the RPI for functional requirement with MQTT embedded  .
+
+**html:** files for the apache2 server using php scripts and  logged data files.
 
 
-esp8266_remote_v2.ino
-    - main file for esp8266.
-    - flash throug Arduino IDE 
-        - requirement: add esp8266 bib 
+***main.py*** - pico main file. 
+- Flash throug Thonny IDE for micropython.
+***esp8266_remote_v2.ino*** - esp8266 main file.
+- Flash throug Arduino IDE
+- requirement: add esp8266 bib
+ 
+ 
+
 
 MQTT broker 
     - needs user name and passwd to allow for listeners
