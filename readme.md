@@ -2,6 +2,10 @@
 # Embedded Linux mini project - Group 21
 This is the git repository for the Embedded linux project by group 21
 
+## Authors
+- [@Jannich113 ](https://github.com/Jannich113)
+- [@philipmarschner](https://github.com/philipmarschner)
+- [@JacobBraendstrup](https://github.com/JacobBraendstrup)
 
 ## Repository Overview
 main.py 
