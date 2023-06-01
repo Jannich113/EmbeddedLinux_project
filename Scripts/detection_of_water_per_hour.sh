@@ -8,7 +8,7 @@ Detection_of_watering_per_hour() {
     local current_time=$(date +%s)
     
 
-    if (( current_time - last_accept_time >= 3600 )); then
+    if (( current_time - last_accept_time >= 3600 )) then
     
         last_accept_time=$current_time
         mosquitto_pub -h localhost -t start/pump -m start -u pi -P burgerking
@@ -21,7 +21,7 @@ mqtt_subs() {
 
     local topic="request/start/pump"
 
-    while -read messege; do
+    while -read $message; do
     Detection_of_watering_per_hour() "$message"
     done < <(mosquitto_sub -h <localhost> -t "$topic" -u pi -P burgerking)
 

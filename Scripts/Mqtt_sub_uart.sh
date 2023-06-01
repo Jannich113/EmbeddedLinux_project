@@ -20,7 +20,7 @@ uart_transmit() {
 start_pump_on_message() {
   local message=$1  
 
-  if [[ "$message" == "start"]]; then
+  if [[ "$message" == "start"]] then
     uart_transmit "p"
   fi
 
@@ -39,13 +39,13 @@ request_data_after_delay() {
 
 mqtt_subs() {
 
-  while read -r message; do
+  while read -r $message do
     start_pump_on_message "$message"
   done < <(mosquitto_sub -h "$MQTT_BROKER" -t "$MQTT_TOPIC" -u pi -P burgerking)
 
 }
 
-while true; do
+while true do
 
   mqtt_subs &
 

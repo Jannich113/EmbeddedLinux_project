@@ -1,45 +1,58 @@
 #!/usr/bin/env python
+import os
 import matplotlib.pyplot as plt
 import numpy as np
+path='/home/jannich/Documents/SDU/EmbeddedLinux_project/html/plant_data'
+#path = '/var/www/html/plant_data/'
 
-#with open('datalog.csv', 'r') as f:
-#    lines = f.readlines()
+# stores path to all csv files
+arrays = []
 
-#x_values = []
-#y_values = []
-#for line in lines:
-#    parts = line.split(',')
-#    x_values.append(float(parts[0]))
-#    y_values.append(float(parts[1]))
 
-#plt.line(y=60, color='r', linestyle='--')
-#plt.plot(x_values, y_values)
-#plt.xlabel('Time2')
-#plt.ylabel('Water level')
-#plt.title('Water level over time')
-#plt.savefig('graph.png')
+# looking through a folder to find all csv files. 
+for file in os.listdir(path):
+    if file.endswith('.csv'):
+        file_path = os.path.join(path, file)
+        array = np.loadtxt(file_path, delimiter=',')
+        arrays.append(array)
+   
 
-data = np.genfromtxt('datalog.csv', delimiter=',')
 
-# extract x and y values from data
-x = data[:, 0]
-y = data[:, 1]
+# colomn index 
+Soil_col_index = 2 
+Light_col_index = 3
 
-# create a new figure and axis
-fig, ax = plt.subplots()
 
-# plot the data
-ax.plot(x, y)
+def plot_soil():
+    # generating plots 
+    for i, array in enumerate(arrays):
+        soil_data = array[:, Soil_col_index]
+        plt.plot(soil_data, label=f'Pico {i+1}')
+    
+    plt.title('Soil moisture over time')
+    plt.xlabel('Time')
+    plt.ylabel('Moisture level')
+    # add a horizontal line at y=50
+    plt.axhline(y=50, color='r', linestyle='--')
+    # add a text label for the line
+    plt.text(0.05, 51.1, 'Threshold', color='r', ha='left',va='top',backgroundcolor='w')
+    # save plot
+    plt.savefig('soil.png')
+    plt.clf()
 
-# add a horizontal line at y=5
-ax.axhline(y=5, color='r', linestyle='--')
 
-# add a text label for the line
-ax.text(0.05, 5.1, 'Threshold', color='r', ha='left',va='top',backgroundcolor='w')
+def plot_light():
+    # generating plots 
+    for i, array in enumerate(arrays):
+        light_data = array[:, Light_col_index]
+        plt.plot(light_data, label=f'Pico {i+1}')
+    plt.title('Light exposure over time')
+    plt.xlabel('Time')
+    plt.ylabel('Light level')
+    # save plot
+    plt.savefig('light.png')
+    plt.clf()
 
-# set the axis labels
-ax.set_xlabel('Time')
-ax.set_ylabel('Water level')
 
-# save the plot to a file
-plt.savefig('graph.png')
+plot_soil()
+plot_light()

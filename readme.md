@@ -119,7 +119,7 @@ To add a new remote to the system the file "esp8266_remote_v2.ino" has to be ope
 
 The topic naming is for example "remote/ID/green_led", where the id has to be replaced with a new id for the remote. This has to be done fore every topic in the file.
 
-To turn on the LED from other bash script from the raspberry pi one could run run the command "mosquittpub -h <mqtt-host> -t remote/1/green_led -m "on" -u <mqtt-username> -P <mqtt-password". This will turn on the green led on remote with id 1. To turn it off one only has to replace the "on" message with "off".
+To turn on the LED from other bash script from the raspberry pi one could run run the command "mosquitto_pub -h <mqtt-host> -t remote/1/green_led -m "on" -u <mqtt-username> -P <mqtt-password". This will turn on the green led on remote with id 1. To turn it off one only has to replace the "on" message with "off".
 
 The remote publishes to a mqtt topic everytime the button is pushed, for example to "remote/1/button_pushed". One can subscribe to this topic on the raspberry pi using "mosquitto_sub -h <mqtt-host> -t remote/1/button_pushed -u <mqtt-username> -P <mqtt-password>"
 
