@@ -17,6 +17,7 @@ The highlighted part is a folder structure containing the main parts of the proj
 
 ***main.py*** - pico main file. 
 - Flash throug Thonny IDE for micropython.
+
 ***esp8266_remote_v2.ino*** - esp8266 main file.
 - Flash throug Arduino IDE
 - requirement: add esp8266 bib
