@@ -13,7 +13,7 @@ The highlighted part is the main parts of the project:
 **ShellScript:** bash scripts used on the RPI for functional requirement with MQTT embedded  .
 
 **html:** files for the apache2 server using php scripts and  logged data files.
-
+- copy to /var/www/html  
 
 ***main.py*** - pico main file. 
 - Flash throug Thonny IDE for micropython.
