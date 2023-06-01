@@ -1,0 +1,1 @@
+plant_alarm, time of plant_alarm, pump_alarm, time of pump_alarm, soil moisture, light, pump activation, time of pump activation
