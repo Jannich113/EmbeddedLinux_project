@@ -134,7 +134,7 @@ To turn on the LED from other bash script from the raspberry pi one could run ru
 
 The remote publishes to a mqtt topic everytime the button is pushed, for example to "remote/1/button_pushed". One can subscribe to this topic on the raspberry pi using "mosquitto_sub -h <mqtt-host> -t remote/1/button_pushed -u <mqtt-username> -P <mqtt-password>"
 
-## Setting up Apache2 WebServer
+## Setting up Apache2 WebServer and Adding more plants webpages
 
 Insure that Apache2 is installed, if not:
 
