@@ -3,9 +3,9 @@
 This is the git repository for the Embedded linux project by group 21
 
 ## Authors
-- [@Jannich113 ](https://github.com/Jannich113)
-- [@philipmarschner](https://github.com/philipmarschner)
-- [@JacobBraendstrup](https://github.com/JacobBraendstrup)
+- [@Jannich113 ](https://github.com/Jannich113), Jannich H. Nielsen, janni18@student.sdu.dk
+- [@philipmarschner](https://github.com/philipmarschner), Philip S. Marschner, phmar19@student.sdu.dk
+- [@JacobBraendstrup](https://github.com/JacobBraendstrup), Jacob Brændstrup, jabra19@student.sdu.dk
 
 ## Repository Overview
 The highlighted part is the main parts of the project: 
