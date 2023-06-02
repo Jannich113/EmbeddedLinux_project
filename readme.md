@@ -113,6 +113,14 @@ Make sure that every script in /home/pi/ShellScripts are executable
     chmod 755 /home/pi/ShellScripts/<script>.sh
 ```
 
+Add scripts for setting up system after reboot
+```bash
+    sudo nano /etc/rc.local
+    # Add the following lines befoe the exit line
+    sudo sh /home/pi/bin/boot.sh
+    sh /home/pi/ShellScripts/waterio_launch.sh
+```
+
 ## Add new plant to system
 Add relationship between plant_id and serial port in /home/pi/ShellScripts/plant_id_to_serialport.sh
 ```bash
