@@ -11,11 +11,12 @@ This is the git repository for the Embedded linux project by group 21
 The highlighted part is the main parts of the project: 
 
 **ShellScript:** bash scripts used on the RPi for functional requirement with MQTT embedded  .
+- copy to /home/pi
 
 **html:** files for the apache2 server using php scripts and  logged data files.
 - copy to /var/www/html  
 
-***main.py*** - RPico main file. 
+***main.py*** - Pico main file. 
 - Flash throug Thonny IDE for micropython.
 
 ***esp8266_remote_v2.ino*** - esp8266 main file.
@@ -27,17 +28,17 @@ The highlighted part is the main parts of the project:
 
 MQTT broker 
     - needs user name and passwd to allow for listeners
-    - username: RPi
+    - username: pi
     - passed: burgerking
 
     To run the MQTT broker in the background as a daemom
     - mosquitto -d
 
-    To subscribe to a toRPicww
-    - mosquitto_sub -d -t "toRPic" -u "username -P "passwd"
+    To subscribe to a topic
+    - mosquitto_sub -d -t "topic" -u "username -P "passwd"
 
-    To publish to a toRPic
-    - mosquitto_pub -d -t "toRPic" -m "message" -u "username -P "passwd"
+    To publish to a topic
+    - mosquitto_pub -d -t "topic" -m "message" -u "username -P "passwd"
 
 RPi 
     - address: 10.42.0.10 or 192.168.10.1
@@ -49,15 +50,11 @@ path to the web page data folder
  /var/www/html/plant_data
 
 
-To run bash script in daemom without terminal session
-    nohup ./script.sh &
-
 
 links
     https://randomnerdtutorials.com/esp8266-and-node-red-with-mqtt/
-    https://randomnerdtutorials.com/how-to-install-mosquitto-broker-on-raspberry-RPi/
-    
-    https://theRPi.io/how-to-use-your-raspberry-RPi-as-a-wireless-access-point/
+    https://randomnerdtutorials.com/how-to-install-mosquitto-broker-on-raspberry-pi/
+    https://thepi.io/how-to-use-your-raspberry-pi-as-a-wireless-access-point/
 
 ## Connections, usernames and passwords
 The wired network connection is setup with a static IP address of 10.0.0.10
@@ -76,25 +73,25 @@ SSH connection
 * Password: Sunset
 
 MQTT broker
-* User: RPi
+* User: pi
 * Password: brugerking
 
 ## Usefull commands
 Manually start pump controller
 ```bash
-    /home/RPi/ShellScripts/pump_controller.sh <plant_id> <serial_port>
+    /home/pi/ShellScripts/pump_controller.sh <plant_id> <serial_port>
 ```
 Manually request pump start
 ```bash
-    /home/RPi/ShellScripts/water_plant.sh <plant_id>
+    /home/pi/ShellScripts/water_plant.sh <plant_id>
 ```
 Start manual water controll monitor
 ```bash
-    /home/RPi/ShellScripts/manual_water.sh <plant_id> <remote_id>
+    /home/pi/ShellScripts/manual_water.sh <plant_id> <remote_id>
 ```
 Start moinsture moniture
 ```bash
-    /home/RPi/ShellScripts/moisture_monitor.sh <plant_id> <soild_threshold>
+    /home/pi/ShellScripts/moisture_monitor.sh <plant_id> <soild_threshold>
 ```
 
 ## First time setup of waterio on a new RPi
@@ -115,28 +112,28 @@ Add health and network status monitor to Cron for logging every minute. Add peri
 ```bash
     crontab -e
     # Add line to end of file
-    * * * * * /home/RPi/ShellScripts/health_monitor.sh
+    * * * * * /home/pi/ShellScripts/health_monitor.sh
     # Add every that should be watered peroidicly, eg plant 1 ever 12 hours
-    0 */12 * * * /home/RPi/ShellScripts/water_plant.sh <plant_id>
+    0 */12 * * * /home/pi/ShellScripts/water_plant.sh <plant_id>
 ```
 
-Make sure that every script in /home/RPi/ShellScripts are executable
+Make sure that every script in /home/pi/ShellScripts are executable
 ```bash
-    chmod 755 /home/RPi/ShellScripts/<script>.sh
+    chmod 755 /home/pi/ShellScripts/<script>.sh
 ```
 
 Add scripts for setting up system after reboot
 ```bash
     sudo nano /etc/rc.local
     # Add the following lines befoe the exit line
-    sudo sh /home/RPi/bin/boot.sh
-    sh /home/RPi/ShellScripts/waterio_launch.sh
+    sudo sh /home/pi/bin/boot.sh
+    sh /home/pi/ShellScripts/waterio_launch.sh
 ```
 
 ## Add new plant to system
 Repeat the following for each plant to be added to the system
 ```bash
-    nano /home/RPi/ShellScripts/waterio_launch.sh
+    nano /home/pi/ShellScripts/waterio_launch.sh
     # Add each new plant to the launch file.
     sh add_plant.sh <plant_id> <serial_port> <threshold> <remote_id>
 ```
@@ -144,13 +141,13 @@ Repeat the following for each plant to be added to the system
 
 ## Add new remote to system
 
-To add a new remote to the system the file "esp8266_remote_v2.ino" has to be opened in the arduino IDE. The remote published directly to MQTT toRPic for button push and subscribes to MQTT toRPics for which LED should be turned on.
+To add a new remote to the system the file "esp8266_remote_v2.ino" has to be opened in the arduino IDE. The remote published directly to MQTT topic for button push and subscribes to MQTT topics for which LED should be turned on.
 
-The toRPic naming is for example "remote/ID/green_led", where the id has to be replaced with a new id for the remote. This has to be done fore every toRPic in the file.
+The topic naming is for example "remote/ID/green_led", where the id has to be replaced with a new id for the remote. This has to be done fore every topic in the file.
 
 To turn on the LED from other bash script from the raspberry RPi one could run run the command "mosquitto_pub -h <mqtt-host> -t remote/1/green_led -m "on" -u <mqtt-username> -P <mqtt-password>. This will turn on the green led on remote with id 1. To turn it off one only has to replace the "on" message with "off".
 
-The remote publishes to a mqtt toRPic everytime the button is pushed, for example to "remote/1/button_pushed". One can subscribe to this toRPic on the raspberry RPi using "mosquitto_sub -h <mqtt-host> -t remote/1/button_pushed -u <mqtt-username> -P <mqtt-password>"
+The remote publishes to a mqtt topic everytime the button is pushed, for example to "remote/1/button_pushed". One can subscribe to this topic on the raspberry RPi using "mosquitto_sub -h <mqtt-host> -t remote/1/button_pushed -u <mqtt-username> -P <mqtt-password>"
 
 ## Setting up Apache2 WebServer and Adding more plants webpages
 
