@@ -134,3 +134,45 @@ To turn on the LED from other bash script from the raspberry pi one could run ru
 
 The remote publishes to a mqtt topic everytime the button is pushed, for example to "remote/1/button_pushed". One can subscribe to this topic on the raspberry pi using "mosquitto_sub -h <mqtt-host> -t remote/1/button_pushed -u <mqtt-username> -P <mqtt-password>"
 
+## Setting up Apache2 WebServer
+
+Insure that Apache2 is installed, if not:
+
+```bash
+  sudo apt intall apache2
+```
+Next is to install php scripting 
+```bash
+  sudo apt intall php
+```
+
+Copy the **html** folder from this git repository, and replace the current html directory at the location: 
+/var/www/ with this one.
+
+Making the webserver user 'www-data' the owner of those files and granting the 'waterio' user write access to the files.
+ ```bash
+ cd /var/www
+ sudo chown -R www-data.www-data html
+ sudo chmod -R g+w html
+ sudo usermod -a -G www-data waterio
+```
+
+Restart the RPI for the changes to take effect.
+
+Now you should be able to goto the webpage:
+```bash
+  http://192.168.10.1/plant1.php
+```
+If more plants are added, you will have to clone the ***plant1.php*** and rename it accordingly to the current plant number x.
+Ex: plantx.php, and make sure to update the csv file it reads from
+```bash
+  sudo cp /var/www/html/plant1.php /var/www/html/plantx.php 
+  sudo nano /var/www/html/plantx.php
+```
+Find the line with ***csvFile = 'plantdatalog_1.csv'*** and change it to the plant number as well. Ex: $csvFile = 'plantdatalog_x.csv';
+
+Now you should have access to Both plants, 1 and x
+```bash
+  http://192.168.10.1/plant1.php
+  http://192.168.10.1/plantx.php
+```
