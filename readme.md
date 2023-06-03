@@ -13,7 +13,7 @@ The highlighted part is the main parts of the project:
 **ShellScript:** bash scripts used on the RPi for functional requirement with MQTT embedded  .
 - copy to /home/pi
 
-**html:** files for the apache2 server using php scripts and  logged data files.
+**webserver_files:** files for the apache2 server using php scripts and  logged data files.
 - copy to /var/www/html  
 
 ***main.py*** - Pico main file. 
@@ -23,6 +23,8 @@ The highlighted part is the main parts of the project:
 - Flash throug Arduino IDE
 - requirement: add esp8266 bib
  
+ ***boot.sh*** - launch script for starting all of the individual functionalities of the system. 
+
  
 
 
