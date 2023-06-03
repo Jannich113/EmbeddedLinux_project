@@ -23,7 +23,7 @@ The highlighted part is the main parts of the project:
 - Flash throug Arduino IDE
 - requirement: add esp8266 bib
  
- ***boot.sh*** - launch script for starting all of the individual functionalities of the system. 
+ ***boot.sh*** - launch script for starting the network forwarding of the system. 
 
  
 
