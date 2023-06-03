@@ -27,16 +27,16 @@ do
   
   while read -r line < $SERIAL_PORT
   do
-    echo "something was read"
+    
     IFS=',' read -ra values <<< "$line"
 
 
     #echo "$line"
   
     for i in "${!values[@]}"; do
-      echo "${values[$i]}"
+      
       MQTT_TOPIC="${KEYS[$i]}"
-      echo "$MQTT_TOPIC"
+      
       
       # Publish the column value over MQTT
       mosquitto_pub -h $MQTT_IP -t $MQTT_TOPIC -m ${values[$i]} -u pi -P burgerking

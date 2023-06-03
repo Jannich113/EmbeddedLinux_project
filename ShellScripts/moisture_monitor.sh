@@ -31,10 +31,12 @@ do
             TIME_DIFF=$(($TIME - $LAST_TIME))
             if [[ $TIME_DIFF -gt 3600 ]]
             then
+               
                 LAST_TIME=$TIME
+                
                 sh ./water_plant.sh $PLANT_ID
             fi
         fi
     done
-    sleep 1  # Wait 1 seconds until reconnection
-done # &  # Discomment the & to run in background (but you should rather run THIS script in background)
+    sleep 1
+done 

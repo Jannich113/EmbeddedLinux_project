@@ -16,6 +16,7 @@ MQTT_PSSWD=burgerking
 MQTT_PUMP_TOPIC=plant/$PLANT_ID/pump
 MQTT_PUMP_ALARM_TOPIC=plant/$PLANT_ID/pump_alarm
 MQTT_PLANT_ALARM_TOPIC=plant/$PLANT_ID/plant_alarm
+MQTT_PLANT_WATERING_LOG=plant/$PLANT_ID/watering_log
 MSG_START="start"
 PUMP_CMD="p"
 ALARM="1"
@@ -50,8 +51,12 @@ do
             if [[ $PUMP_ALARM == $NO_ALARM && $PLANT_ALARM == $NO_ALARM ]]
             then
                 echo "$PUMP_CMD" > $SERIAL_PORT
+                date_time=$(date)
+                mosquitto_pub -h 192.168.10.1 -t $MQTT_PLANT_WATERING_LOG -m "$date_time" -u pi -P burgerking
+
+
             fi
         fi
     done
-    sleep 1  # Wait 1 seconds until reconnection
-done # &  # Discomment the & to run in background (but you should rather run THIS script in background)
+    sleep 1
+done 

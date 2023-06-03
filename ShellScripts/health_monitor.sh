@@ -2,7 +2,7 @@
 DIR_BIN=`dirname $(readlink -f $0)`
 cd $DIR_BIN
 
-log_file="monitoring_log.txt"
+log_file="health_log.txt"
 
 # Function to write output to log file
 write_to_log() {

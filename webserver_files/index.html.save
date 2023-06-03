@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home page</title>
+</head>
+<body>
+    <h1>Home page</h1>
+    <button onclick="window.location.href = 'plant1_chart.php';">Plant 1 sensors</button>
+    <button onclick="window.location.href = 'plant2_chart.php';">Plant 2 sensors</button>
+    <button onclick="window.location.href = 'plant_alarm.php';">Plant Alarms</button>
+    <button onclick="window.location.href = 'pump_alarm.php';">Pump Alarms</button>
+    <button onclick="window.location.href = 'pump_request.php';">Pump Requests</button>
+    <button onclick="window.location.href = 'health_log.php';">Download health and network log</button>
+   
+</body>
+</html>

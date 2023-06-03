@@ -1,4 +1,11 @@
 #!/bin/bash
+if [ -z "$2" ]
+then
+    echo "Please provide both a plant_id and remote_id."
+    echo "pump_controller.sh <plant_id> <remote_id>"
+    exit 1
+fi
+
 DIR_BIN=`dirname $(readlink -f $0)`
 cd $DIR_BIN
 
@@ -9,18 +16,26 @@ REMOTE_ID="$2"
 #plant_alarm, time of plant_alarm, pump_alarm, time of pump_alarm, soil moisture, light, pump activation, time of pump activation
 
 log_file="sensor_log_file_$PLANT_ID.csv"
-request_log_file="pump_request_log_$PLANT_ID.csv"
+request_log_file="pump_request_log.csv"
+plant_alarm_file="plant_alarm_file.csv"
+pump_alarm_file="pump_alarm_file.csv"
+
 
 touch $log_file
 touch $request_log_file
+touch $plant_alarm_file
+touch $pump_alarm_file
 
 PLANT_ALARM_TOPIC=plant/$PLANT_ID/plant_alarm
 PUMP_ALARM_TOPIC=plant/$PLANT_ID/pump_alarm
 MOISTURE_TOPIC=plant/$PLANT_ID/moisture
 LIGHT_TOPIC=plant/$PLANT_ID/light
-PUMP_REQUEST_TOPIC=plant/$PLANT_ID/pump
+PUMP_REQUEST_TOPIC=plant/$PLANT_ID/watering_log
 
 MQTT_IP="192.168.10.1"
+
+last_plant_msg=1
+last_pump_msg=1
 
 
 while true
@@ -30,11 +45,12 @@ do
         
         topic=$(echo "$payload" | cut -d ' ' -f 1)
         msg=$(echo "$payload" | cut -d ' ' -f 2-)
+        time_seconds=$(date)
 
         if [[ $topic == $PUMP_REQUEST_TOPIC ]]
         then
-            time_seconds=$(date +%s)
-            echo "$time_seconds" >> $request_log_file
+            echo "here"
+            echo "$time_seconds,$PLANT_ID" >> $request_log_file
         fi
 
 
@@ -70,7 +86,21 @@ do
             moisture_received=false
             light_received=false
 
-            time_seconds=$(date +%s)
+            if [[ $last_plant_msg != $plant_msg && $plant_msg == 1 ]]
+            then
+                echo "$time_seconds,$PLANT_ID" >> $plant_alarm_file
+            fi
+
+            if [[ $last_pump_msg != $pump_msg && $pump_msg == 1 ]]
+            then
+                echo "$time_seconds,$PLANT_ID" >> $pump_alarm_file
+            fi
+            
+            last_plant_msg=$plant_msg
+            last_pump_msg=$pump_msg
+
+
+            time_seconds=$(date)
             echo "$plant_msg,$pump_msg,$moisture_msg,$light_msg,$time_seconds" >> $log_file
         fi
     done
