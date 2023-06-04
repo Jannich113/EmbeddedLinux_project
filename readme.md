@@ -25,38 +25,7 @@ The highlighted part is the main parts of the project:
  
  ***boot.sh*** - launch script for starting the network forwarding of the system. 
 
- 
 
-
-MQTT broker 
-    - needs user name and passwd to allow for listeners
-    - username: pi
-    - passed: burgerking
-
-    To run the MQTT broker in the background as a daemom
-    - mosquitto -d
-
-    To subscribe to a topic
-    - mosquitto_sub -d -t "topic" -u "username -P "passwd"
-
-    To publish to a topic
-    - mosquitto_pub -d -t "topic" -m "message" -u "username -P "passwd"
-
-RPi 
-    - address: 10.42.0.10 or 192.168.10.1
-
-McWifi
-    - passwd: burgerking
-
-path to the web page data folder
- /var/www/html/plant_data
-
-
-
-links
-    https://randomnerdtutorials.com/esp8266-and-node-red-with-mqtt/
-    https://randomnerdtutorials.com/how-to-install-mosquitto-broker-on-raspberry-pi/
-    https://thepi.io/how-to-use-your-raspberry-pi-as-a-wireless-access-point/
 
 ## Connections, usernames and passwords
 The wired network connection is setup with a static IP address of 10.0.0.10
@@ -186,13 +155,22 @@ Ex: plantx_chart.php, and make sure to update the csv file it reads from
   sudo nano /var/www/html/plantx.php
 ```
  
-Find the line with ***$File = 'sensor_log_file_1.csv';*** and change it to the plant number as well. Ex: $File = 'sensor_log_file_x.csv';;
+Find the line with ***$File = 'sensor_log_file_1.csv';*** and change it to the plant number as well. Ex: $File = 'sensor_log_file_x.csv';
+ 
 And add the following in the index.html file
  ```bash
-   <button onclick="window.location.href = 'plantx_chart.php';">Plant 2 sensors</button>
+   <button onclick="window.location.href = 'plantx_chart.php';">Plant x sensors</button>
 ```
 Now you should have access to Both plants, 1 and x
 ```bash
   http://192.168.10.1/plant1_chart.php
   http://192.168.10.1/plantx_chart.php
 ```
+
+ ## Appendix
+
+**install and configuring MQTT**
+
+    https://randomnerdtutorials.com/esp8266-and-node-red-with-mqtt/
+    https://randomnerdtutorials.com/how-to-install-mosquitto-broker-on-raspberry-pi/
+    https://thepi.io/how-to-use-your-raspberry-pi-as-a-wireless-access-point/
