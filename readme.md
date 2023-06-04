@@ -162,7 +162,7 @@ Next is to install php scripting
   sudo apt intall php
 ```
 
-Copy the **html** folder from this git repository, and replace the current html directory at the location: 
+Copy the **webserver_files** folder from this git repository, and replace the current html directory at the location: 
 /var/www/ with this one.
 
 Making the webserver user 'www-data' the owner of those files and granting the 'waterio' user write access to the files.
@@ -177,18 +177,22 @@ Restart the RPi for the changes to take effect.
 
 Now you should be able to goto the webpage:
 ```bash
-  http://192.168.10.1/plant1.php
+  http://192.168.10.1/index.html
 ```
-If more plants are added, you will have to clone the ***plant1.php*** and rename it accordingly to the current plant number x.
-Ex: plantx.php, and make sure to update the csv file it reads from
+If more plants are added, you will have to clone the ***plant1_chart.php*** and rename it accordingly to the current plant number x.
+Ex: plantx_chart.php, and make sure to update the csv file it reads from
 ```bash
   sudo cp /var/www/html/plant1.php /var/www/html/plantx.php 
   sudo nano /var/www/html/plantx.php
 ```
-Find the line with ***csvFile = 'plantdatalog_1.csv'*** and change it to the plant number as well. Ex: $csvFile = 'plantdatalog_x.csv';
-
+ 
+Find the line with ***$File = 'sensor_log_file_1.csv';*** and change it to the plant number as well. Ex: $File = 'sensor_log_file_x.csv';;
+And add the following in the index.html file
+ ```bash
+   <button onclick="window.location.href = 'plantx_chart.php';">Plant 2 sensors</button>
+```
 Now you should have access to Both plants, 1 and x
 ```bash
-  http://192.168.10.1/plant1.php
-  http://192.168.10.1/plantx.php
+  http://192.168.10.1/plant1_chart.php
+  http://192.168.10.1/plantx_chart.php
 ```
